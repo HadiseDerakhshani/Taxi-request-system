@@ -23,4 +23,13 @@ public class Drivers extends Person {
     public void setVehicles(Vehicles vehicles) {
         this.vehicles = vehicles;
     }
+    public Vehicles addVehicles(String vehiclesType,String name, int model, String color, String plateNumber){
+        if (vehiclesType.equals(VehiclesType.CAR)) {
+            Vehicles vehicles = new Vehicles(name, model, color, plateNumber,VehiclesType.CAR);
+            return vehicles;
+        }
+
+       else
+           return null;
+    }
 }
