@@ -9,17 +9,28 @@ import ir.maktab58.model.Vehicles;
 
 import java.sql.Driver;
 import java.sql.SQLException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
     public static   Drivers drivers=new Drivers();
     public static   Vehicles vehicles=new Vehicles();
     public static Passengers passengers=new Passengers();
-    // public static DriverDBAccess driverDBAccess=new DriverDBAccess();
     public static void main(String[] args) {
-
-
-
+     Scanner scanner=new Scanner(System.in);
+     int choice = 0;
+        System.out.println("Select of Item : ");
+        menu();
+        String input=scanner.next();
+        try {
+           choice=isValid(input);
+        }catch (RuntimeException runtimeException){
+            System.out.println(runtimeException.getMessage());
+        }
+        switch (choice){
+            case 1:
+                break;
+        }
 
     }
     public static void menu(){
@@ -50,12 +61,11 @@ public class Main {
                 break;
             case 2:
                 vehiclesType="Motor";
-                break;
             case 3:
                 vehiclesType="Vanet";
-                break;
             case 4:
                 vehiclesType="Van";
+                System.out.println("YET STILL THERE IS NOT IN SYSTEM");
                 break;
 
         }
@@ -76,6 +86,22 @@ public class Main {
         passengerDBAccess.save(passengers);
     }
 
+public static int isValid(String input) {
+       if (input==null){
+     throw  new NullPointerException("value is Null");
+       }
+    for (int i = 0; i < input.length(); i++) {
+        if (!Character.isDigit(input.charAt(i))) {
+        throw new InputMismatchException("value is not digit");
+        }
+    }
+        if ( input.length()==0 && Character.isDigit(input.charAt(0))) {
+            int number=Integer.parseInt(input);
+            if(number<1 || number>6)
+            throw new ArrayIndexOutOfBoundsException("value is out of bands");
+        }
 
+        return Integer.parseInt(input);
+}
 
 }

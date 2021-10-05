@@ -18,5 +18,8 @@ public class DBAccess {
     public void setGetConnection(Connection getConnection) {
         this.getConnection = getConnection;
     }
+    public void updateBalance(){
+
+    }
 
 }

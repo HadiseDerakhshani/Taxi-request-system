@@ -47,4 +47,9 @@ public class PassengerDBAccess extends DBAccess{
         }
         return i;
     }
+
+    @Override
+    public void updateBalance() {
+        super.updateBalance();
+    }
 }

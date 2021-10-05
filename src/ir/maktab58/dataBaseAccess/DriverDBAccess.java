@@ -4,7 +4,7 @@ import ir.maktab58.model.Drivers;
 
 import java.sql.*;
 
-public class DriverDBAccess extends DBAccess{
+public class DriverDBAccess extends DBAccess {
     public DriverDBAccess() throws SQLException, ClassNotFoundException {
         if (getGetConnection() != null) {
             DatabaseMetaData metaData = getGetConnection().getMetaData();
@@ -34,19 +34,23 @@ public class DriverDBAccess extends DBAccess{
     }
 
     public Integer save(Drivers driver) throws SQLException {
-        Integer i=null;
+        Integer i = null;
         if (getGetConnection() != null) {
             Statement statement = getGetConnection().createStatement();
             String sqlQuery = String.format("insert into driver(name,family,user_name,phone,vehicles,balance) " +
-                            "values ('%s','%s','%d','%s','%s','%f')",driver.getName(),driver.getFamily()
-                    ,driver.getUserName(),driver.getPhoneNumber(),driver.getVehicles().getType(),driver.getBalance());
-            i=statement.executeUpdate(sqlQuery);
+                            "values ('%s','%s','%d','%s','%s','%f')", driver.getName(), driver.getFamily()
+                    , driver.getUserName(), driver.getPhoneNumber(), driver.getVehicles().getType(), driver.getBalance());
+            i = statement.executeUpdate(sqlQuery);
             System.out.println("Add employee successful");
-        } else{
+        } else {
             System.out.println("----connection is empty----");
-            i=null;
+            i = null;
         }
         return i;
     }
 
+    @Override
+    public void updateBalance() {
+        super.updateBalance();
+    }
 }
