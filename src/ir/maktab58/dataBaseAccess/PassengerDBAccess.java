@@ -92,20 +92,15 @@ public class PassengerDBAccess extends DBAccess{
             ArrayList<Passengers> arrayList = new ArrayList<>();
 
             while (resultSet.next()) {
-                Passengers passengers = new Passengers(resultSet.getInt(1),
-                        resultSet.getString(2), resultSet.getString(3)
+                Passengers passengers = new Passengers(resultSet.getString(2), resultSet.getString(3)
                         , resultSet.getInt(4), resultSet.getString(5)
-                        , resultSet.getString(6));
+                        , Double.parseDouble(resultSet.getString(6)));
 
                 arrayList.add(passengers);
             }
             for (Passengers pass : arrayList) {
-                System.out.print("NAME : " + pass.getName() + ", ");
-                System.out.print("FAMILY : " + pass.getFamily() + ", ");
-                System.out.print("USERNAME : " + pass.getUserName() + ", ");
-                System.out.print("BALANCE : " + pass.getBalance() + ", ");
-                System.out.print("PHONE_NUMBER : " + pass.getPhoneNumber() + ", ");
-                System.out.println();
+
+                System.out.println(pass.toString());
             }
         } else
             System.out.println("----Connection Is Empty----");

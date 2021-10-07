@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class DriverDBAccess extends DBAccess {
     public DriverDBAccess() throws SQLException, ClassNotFoundException {
-        if (getConnection()!= null) {
+        if (getConnection() != null) {
             DatabaseMetaData metaData = getConnection().getMetaData();
             ResultSet tables = metaData.getTables(null, null, "driver", null);
             if (!tables.next()) {
@@ -17,7 +17,7 @@ public class DriverDBAccess extends DBAccess {
     }
 
     @Override
-    public void creatTable() throws ClassNotFoundException, SQLException{
+    public void creatTable() throws ClassNotFoundException, SQLException {
         Connection connection = getConnection();
         Statement statement = connection.createStatement();
         statement.executeUpdate("CREATE TABLE driver(" +
@@ -37,7 +37,7 @@ public class DriverDBAccess extends DBAccess {
         if (getConnection() != null) {
             Statement statement = getConnection().createStatement();
             String sqlQuery = String.format("insert into driver(name,family,user_name,phone,vehicles,balance) " +
-                            "values ('%s','%s','%d','%s','%s','%s')", driver.getName(), driver.getFamily()
+                            "values ('%s','%s',%d,'%s','%s','%s')", driver.getName(), driver.getFamily()
                     , driver.getUserName(), driver.getPhoneNumber(),
                     driver.getVehicles().getType().getType(), driver.getBalance());
             i = statement.executeUpdate(sqlQuery);
@@ -50,7 +50,7 @@ public class DriverDBAccess extends DBAccess {
     }
 
     @Override
-    public void updateBalance(int id,double balance) throws SQLException {
+    public void updateBalance(int id, double balance) throws SQLException {
         if (getConnection() != null) {
 
             double balanceOld = 0;
@@ -60,12 +60,12 @@ public class DriverDBAccess extends DBAccess {
             ResultSet resultSet = findId.executeQuery();
 
             while (resultSet.next()) {
-                balance=Double.parseDouble(resultSet.getString(1));
+                balance = Double.parseDouble(resultSet.getString(1));
             }
 
-             sqlQuery = String.format("update driver set balance = ? where user_name = ?");
+            sqlQuery = String.format("update driver set balance = ? where user_name = ?");
             PreparedStatement updateBalance = getConnection().prepareStatement(sqlQuery);
-            updateBalance.setString(1,String.valueOf(balance+balanceOld) );
+            updateBalance.setString(1, String.valueOf(balance + balanceOld));
             updateBalance.setInt(2, id);
             updateBalance.executeUpdate();
             System.out.println("Update successful");
@@ -75,17 +75,18 @@ public class DriverDBAccess extends DBAccess {
 
     @Override
     public Integer search(int id) throws SQLException {
-      Integer userId=null;
+        Integer userId = null;
         String sqlQuery = String.format("select user_name from  driver  where user_name = ?");
         PreparedStatement findId = getConnection().prepareStatement(sqlQuery);
         findId.setInt(1, id);
         ResultSet resultSet = findId.executeQuery();
 
         while (resultSet.next()) {
-            userId=resultSet.getInt(1);
+            userId = resultSet.getInt(1);
         }
         return userId;
     }
+
     public void showList() throws SQLException {
         if (getConnection() != null) {
             String sqlQuery = String.format("select * from driver ");
@@ -94,21 +95,14 @@ public class DriverDBAccess extends DBAccess {
             ArrayList<Drivers> arrayList = new ArrayList<>();
 
             while (resultSet.next()) {
-                Drivers drivers = new Drivers(resultSet.getInt(1),
-                        resultSet.getString(2), resultSet.getString(3)
-                        ,resultSet.getInt(4),resultSet.getString(5)
-                        ,resultSet.getString(6),resultSet.getString(7));
+                Drivers drivers = new Drivers(resultSet.getString(2), resultSet.getString(3), resultSet.getInt(4),
+                        resultSet.getString(5), Double.parseDouble(resultSet.getString(7)));
 
                 arrayList.add(drivers);
             }
             for (Drivers dri : arrayList) {
-                System.out.print("NAME : " +dri.getName()+ ", ");
-                System.out.print("FAMILY : " +dri.getFamily()+ ", ");
-                System.out.print("USERNAME : " +dri.getUserName()+ ", ");
-                System.out.print("VEHICLES : " +dri.getVehicles()+ ", ");
-                System.out.print("BALANCE : " +dri.getBalance()+ ", ");
-                System.out.print("PHONE_NUMBER : " +dri.getPhoneNumber()+ ", ");
-                System.out.println();
+
+                System.out.println(dri.toString());
             }
         } else
             System.out.println("----Connection Is Empty----");

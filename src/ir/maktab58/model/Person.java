@@ -57,4 +57,15 @@ public class Person {
     public void setBalance(double balance) {
         this.balance = balance;
     }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "name='" + name + '\'' +
+                ", family='" + family + '\'' +
+                ", userName=" + userName +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", balance=" + balance +
+                '}';
+    }
 }

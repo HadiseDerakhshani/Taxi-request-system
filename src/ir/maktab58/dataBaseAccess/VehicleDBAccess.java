@@ -4,7 +4,7 @@ import ir.maktab58.model.Vehicles;
 
 import java.sql.*;
 
-public class VehicleDBAccess extends DBAccess{
+public class VehicleDBAccess extends DBAccess {
     public VehicleDBAccess() throws ClassNotFoundException, SQLException {
         if (getConnection() != null) {
             DatabaseMetaData metaData = getConnection().getMetaData();
@@ -16,7 +16,7 @@ public class VehicleDBAccess extends DBAccess{
     }
 
     @Override
-    public void creatTable() throws ClassNotFoundException, SQLException {
+    public void creatTable() throws SQLException {
         java.sql.Connection connection = getConnection();
         Statement statement = connection.createStatement();
         statement.executeUpdate("CREATE TABLE vehicles(" +
@@ -34,10 +34,10 @@ public class VehicleDBAccess extends DBAccess{
         if (getConnection() != null) {
             Statement statement = getConnection().createStatement();
             String sqlQuery = String.format("insert into vehicles(name,color,model,plate,type) " +
-                            "values ('%s','%s','%d','%s','%s')", vehicles.getName(), vehicles.getColor()
+                            "values ('%s','%s',%d,'%s','%s')", vehicles.getName(), vehicles.getColor()
                     , vehicles.getModel(), vehicles.getPlateNumber(),
                     vehicles.getType().getType());
-             statement.executeUpdate(sqlQuery);
+            statement.executeUpdate(sqlQuery);
             System.out.println("Add vehicles successful");
         } else {
             System.out.println("----connection is empty----");

@@ -1,13 +1,11 @@
 package ir.maktab58;
 
-import ir.maktab58.dataBaseAccess.DBAccess;
 import ir.maktab58.dataBaseAccess.DriverDBAccess;
 import ir.maktab58.dataBaseAccess.PassengerDBAccess;
 import ir.maktab58.model.Drivers;
 import ir.maktab58.model.Passengers;
 import ir.maktab58.model.Vehicles;
 
-import java.sql.Driver;
 import java.sql.SQLException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -23,46 +21,42 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         int choice = 0;
         boolean check;
-       
-do {
-    System.out.println("Select of Item : ");
-    choice = menu();
-    int id;
-        switch (choice) {
-            case 1:
-                addDriver();
-                choice = menu();
-                break;
-            case 2:
-                addPassengers();
-                choice = menu();
-                break;
-            case 3:
-                System.out.println("enter userName : ");
-                id = scanner.nextInt();
-                choice = checked(driverDBAccess.search(id), 3);
-                break;
-            case 4:
-                System.out.println("enter userName : ");
-                id = scanner.nextInt();
-                choice = checked(passengerDBAccess.search(id), 4);
-                break;
-            case 5:
-                driverDBAccess.showList();
-                choice = menu();
-                break;
-            case 6:
-                passengerDBAccess.showList();
-                choice = menu();
-                break;
-            case 7:
-                break;
-        }
-    }while (choice!=7);
+
+        do {
+            System.out.println("Select of Item : ");
+            choice = menu();
+            int id;
+            switch (choice) {
+                case 1:
+                    addDriver();
+                    break;
+                case 2:
+                    addPassengers();
+                    break;
+                case 3:
+                    System.out.println("enter userName : ");
+                    id = scanner.nextInt();
+                    choice = checked(driverDBAccess.search(id), 3);
+                    break;
+                case 4:
+                    System.out.println("enter userName : ");
+                    id = scanner.nextInt();
+                    choice = checked(passengerDBAccess.search(id), 4);
+                    break;
+                case 5:
+                    driverDBAccess.showList();
+                    break;
+                case 6:
+                    passengerDBAccess.showList();
+                    break;
+                case 7:
+                    break;
+            }
+        } while (choice != 7);
     }
 
     public static int menu() {
-        int choice=0;
+        int choice = 0;
         Scanner scanner = new Scanner(System.in);
         System.out.println("1.Add a group of drivers \n" +
                 "2.Add a group of passengers \n" +
@@ -71,13 +65,13 @@ do {
                 "5.Show a list of drivers \n" +
                 "6.Show a list of passengers\n" +
                 "7.Exit ");
-        String input = scanner.next();
+        String input = scanner.nextLine();
         try {
             choice = isValid(input);
         } catch (RuntimeException runtimeExc) {
             System.out.println(runtimeExc.getMessage());
         }
-return choice;
+        return choice;
     }
 
     public static void addDriver() throws SQLException, ClassNotFoundException {
@@ -108,13 +102,10 @@ return choice;
 
         }
 
-       // if (vehicles != null) {
-            drivers = new Drivers(name, family, id, phone, balance, vehicles);
-            DriverDBAccess driverDBAccess = new DriverDBAccess();
-             driverDBAccess.save(drivers);
-          //  if(check!=null)
-             //   System.out.println(" add ");
-       // }
+
+        drivers = new Drivers(name, family, id, phone, balance, vehicles);
+        DriverDBAccess driverDBAccess = new DriverDBAccess();
+        driverDBAccess.save(drivers);
 
     }
 
@@ -128,55 +119,57 @@ return choice;
     }
 
     public static int isValid(String input) {
-        if (input == null) {
-            throw new NullPointerException("value is Null");
+        if (input.equals("")) {
+            throw new NullPointerException("--value is Null--");
         }
         for (int i = 0; i < input.length(); i++) {
             if (!Character.isDigit(input.charAt(i))) {
-                throw new InputMismatchException("value is not digit");
+                throw new InputMismatchException("--value is not digit-- ");
             }
         }
-        if (input.length() == 0 && Character.isDigit(input.charAt(0))) {
+        if (input.length() == 1) {
             int number = Integer.parseInt(input);
-            if (number < 1 || number > 6)
-                throw new ArrayIndexOutOfBoundsException("value is out of bands");
+            if (number < 1 || number > 7)
+                throw new ArrayIndexOutOfBoundsException("--value is out of bands--");
+        }
+        if (input.length() > 1) {
+            throw new ArrayIndexOutOfBoundsException("--value is not valid--");
         }
 
         return Integer.parseInt(input);
     }
- public static int checked(Integer check,int item) throws SQLException, ClassNotFoundException {
-       int choice=0;
-   Scanner scanner=new Scanner(System.in);
-   if(check!=null){
-     System.out.println("1.Increase account balance \n" +
-             "2.Exit\n");
-     choice=scanner.nextInt();
-     if(choice==1 && item==3){
-       DriverDBAccess driverDBAccess=new DriverDBAccess();
-         System.out.println("enter amount for update balance");
-       driverDBAccess.updateBalance(check,Double.parseDouble(scanner.next()));
-     }
-     else if (choice==1 && item==4){
-        PassengerDBAccess passengerDBAccess=new PassengerDBAccess();
-         System.out.println("enter amount for update balance");
-         passengerDBAccess.updateBalance(check,Double.parseDouble(scanner.next()));
-     }
-     else if (choice==2){
-        choice= menu();
-     }
-   }else {
-       System.out.println("1.Register \n" +
-               "2.Exit");
-       choice=scanner.nextInt();
-       if(choice==1 && item==3){
-          addDriver();
-       }else   if(choice==1 && item==4){
-           addPassengers();
-       }else if(choice==2){
-           choice=menu();
-       }
-   }
 
-   return choice;
- }
+    public static int checked(Integer check, int item) throws SQLException, ClassNotFoundException {
+        int choice = 0;
+        Scanner scanner = new Scanner(System.in);
+        if (check != null) {
+            System.out.println("1.Increase account balance \n" +
+                    "2.Exit\n");
+            choice = scanner.nextInt();
+            if (choice == 1 && item == 3) {
+                DriverDBAccess driverDBAccess = new DriverDBAccess();
+                System.out.println("enter amount for update balance");
+                driverDBAccess.updateBalance(check, Double.parseDouble(scanner.next()));
+            } else if (choice == 1 && item == 4) {
+                PassengerDBAccess passengerDBAccess = new PassengerDBAccess();
+                System.out.println("enter amount for update balance");
+                passengerDBAccess.updateBalance(check, Double.parseDouble(scanner.next()));
+            } else if (choice == 2) {
+                choice = menu();
+            }
+        } else {
+            System.out.println("1.Register \n" +
+                    "2.Exit");
+            choice = scanner.nextInt();
+            if (choice == 1 && item == 3) {
+                addDriver();
+            } else if (choice == 1 && item == 4) {
+                addPassengers();
+            } else if (choice == 2) {
+                choice = menu();
+            }
+        }
+
+        return choice;
+    }
 }
