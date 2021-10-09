@@ -29,7 +29,6 @@ public class VehicleDBAccess extends DBAccess {
                 "    PRIMARY KEY (id) " +
                 "    );");
     }
-
     public void save(Vehicles vehicles) throws SQLException {
         if (getConnection() != null) {
             Statement statement = getConnection().createStatement();

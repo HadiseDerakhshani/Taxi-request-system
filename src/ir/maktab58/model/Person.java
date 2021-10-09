@@ -1,21 +1,33 @@
 package ir.maktab58.model;
 
+import com.sun.org.apache.xerces.internal.util.Status;
+import ir.maktab58.StatusTravel;
+
 public class Person {
     private String name;
     private String family;
     private int userName;
     private String phoneNumber;
     private double balance;
-
+    private StatusTravel status;
     public Person() {
     }
 
-    public Person(String name, String family, int userName, String phoneNumber, double balance) {
+    public Person(String name, String family, int userName, String phoneNumber, double balance, StatusTravel status) {
         this.name = name;
         this.family = family;
         this.userName = userName;
         this.phoneNumber = phoneNumber;
         this.balance = balance;
+        this.status = status;
+    }
+
+    public StatusTravel getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusTravel status) {
+        this.status = status;
     }
 
     public String getName() {
@@ -66,6 +78,7 @@ public class Person {
                 ", userName=" + userName +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", balance=" + balance +
+                ", status=" + status +
                 '}';
     }
 }

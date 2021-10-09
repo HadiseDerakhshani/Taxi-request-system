@@ -1,5 +1,6 @@
 package ir.maktab58.dataBaseAccess;
 
+import ir.maktab58.StatusTravel;
 import ir.maktab58.model.Drivers;
 import ir.maktab58.model.Passengers;
 
@@ -92,11 +93,25 @@ public class PassengerDBAccess extends DBAccess{
             ArrayList<Passengers> arrayList = new ArrayList<>();
 
             while (resultSet.next()) {
-                Passengers passengers = new Passengers(resultSet.getString(2), resultSet.getString(3)
-                        , resultSet.getInt(4), resultSet.getString(5)
-                        , Double.parseDouble(resultSet.getString(6)));
 
-                arrayList.add(passengers);
+
+
+                if (resultSet.getString("status").equals(StatusTravel.ABSENT)) {
+                    Passengers passengers = new Passengers(resultSet.getString(2), resultSet.getString(3)
+                            , resultSet.getInt(4), resultSet.getString(5)
+                            , Double.parseDouble(resultSet.getString(6)),StatusTravel.ABSENT);
+
+                    arrayList.add(passengers);
+                }else
+                if (resultSet.getString("status").equals(StatusTravel.PRESENCE)) {
+                    Passengers passengers = new Passengers(resultSet.getString(2), resultSet.getString(3)
+                            , resultSet.getInt(4), resultSet.getString(5)
+                            , Double.parseDouble(resultSet.getString(6)),StatusTravel.PRESENCE);
+
+                    arrayList.add(passengers);
+                }
+
+
             }
             for (Passengers pass : arrayList) {
 

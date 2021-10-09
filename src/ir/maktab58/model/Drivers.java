@@ -1,5 +1,7 @@
 package ir.maktab58.model;
 
+import com.sun.org.apache.xerces.internal.util.Status;
+import ir.maktab58.StatusTravel;
 import ir.maktab58.VehiclesType;
 import ir.maktab58.dataBaseAccess.VehicleDBAccess;
 
@@ -11,13 +13,13 @@ public class Drivers extends Person {
     public Drivers() {
     }
 
-    public Drivers(String name, String family, int userName, String phoneNumber, double balance) {
-        super(name, family, userName, phoneNumber, balance);
+    public Drivers(String name, String family, int userName, String phoneNumber, double balance, StatusTravel status, Vehicles vehicles) {
+        super(name, family, userName, phoneNumber, balance, status);
+        this.vehicles = vehicles;
     }
 
-    public Drivers(String name, String family, int userName, String phoneNumber, double balance, Vehicles vehicles) {
-        super(name, family, userName, phoneNumber, balance);
-        this.vehicles = vehicles;
+    public Drivers(String name, String family, int userName, String phoneNumber, double balance, StatusTravel status) {
+        super(name, family, userName, phoneNumber, balance, status);
     }
 
     public Vehicles getVehicles() {
@@ -41,7 +43,7 @@ public class Drivers extends Person {
 
     @Override
     public String toString() {
-        return
+        return  vehicles.getType().getType() +" , "+
                 super.toString();
 
     }

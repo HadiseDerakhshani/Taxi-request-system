@@ -3,12 +3,26 @@ package ir.maktab58.model;
 import ir.maktab58.VehiclesType;
 
 public class Vehicles {
+    private int id;
     private String name;
     private int model;
     private String color;
     private String plateNumber;
     private VehiclesType type;
     public Vehicles() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public Vehicles(int id, String name, int model, String color, String plateNumber, VehiclesType type) {
+        this.id = id;
+        this.name = name;
+        this.model = model;
+        this.color = color;
+        this.plateNumber = plateNumber;
+        this.type = type;
     }
 
     public Vehicles(String name, int model, String color, String plateNumber, VehiclesType type) {

@@ -2,6 +2,7 @@ package ir.maktab58;
 
 import ir.maktab58.dataBaseAccess.DriverDBAccess;
 import ir.maktab58.dataBaseAccess.PassengerDBAccess;
+import ir.maktab58.model.Admin;
 import ir.maktab58.model.Drivers;
 import ir.maktab58.model.Passengers;
 import ir.maktab58.model.Vehicles;
@@ -21,38 +22,42 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         int choice = 0;
         boolean check;
-
-        do {
-            System.out.println("Select of Item : ");
-            choice = menu();
-            int id;
-            switch (choice) {
-                case 1:
-                    addDriver();
-                    break;
-                case 2:
-                    addPassengers();
-                    break;
-                case 3:
-                    System.out.println("enter userName : ");
-                    id = scanner.nextInt();
-                    choice = checked(driverDBAccess.search(id), 3);
-                    break;
-                case 4:
-                    System.out.println("enter userName : ");
-                    id = scanner.nextInt();
-                    choice = checked(passengerDBAccess.search(id), 4);
-                    break;
-                case 5:
-                    driverDBAccess.showList();
-                    break;
-                case 6:
-                    passengerDBAccess.showList();
-                    break;
-                case 7:
-                    break;
-            }
-        } while (choice != 7);
+        Admin admin=new Admin();
+        System.out.println("enter userName :");
+       if(admin.checkAdmin(scanner.next())) {
+           do {
+               System.out.println("Select of Item : ");
+               choice = menu();
+               int id;
+               switch (choice) {
+                   case 1:
+                       System.out.println("How many drivers do you want to add : ");
+                       addDriver();
+                       break;
+                   case 2:
+                       addPassengers();
+                       break;
+                   case 3:
+                       System.out.println("enter userName : ");
+                       id = scanner.nextInt();
+                       choice = checked(driverDBAccess.search(id), 3);
+                       break;
+                   case 4:
+                       System.out.println("enter userName : ");
+                       id = scanner.nextInt();
+                       choice = checked(passengerDBAccess.search(id), 4);
+                       break;
+                   case 5:
+                       driverDBAccess.showList();
+                       break;
+                   case 6:
+                       passengerDBAccess.showList();
+                       break;
+                   case 7:
+                       break;
+               }
+           } while (choice != 7);
+       }
     }
 
     public static int menu() {
@@ -103,7 +108,7 @@ public class Main {
         }
 
 
-        drivers = new Drivers(name, family, id, phone, balance, vehicles);
+        drivers = new Drivers(name, family, id, phone, balance,StatusTravel.ABSENT, vehicles);
         DriverDBAccess driverDBAccess = new DriverDBAccess();
         driverDBAccess.save(drivers);
 
@@ -114,7 +119,7 @@ public class Main {
         PassengerDBAccess passengerDBAccess = new PassengerDBAccess();
         System.out.println("enter  name & family & userName & phoneNumber & balance : ");
         passengers = new Passengers(scanner.next(), scanner.next(),
-                scanner.nextInt(), scanner.next(), scanner.nextDouble());
+                scanner.nextInt(), scanner.next(), scanner.nextDouble(),StatusTravel.ABSENT);
         passengerDBAccess.save(passengers);
     }
 

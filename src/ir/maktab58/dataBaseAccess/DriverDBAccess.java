@@ -1,5 +1,7 @@
 package ir.maktab58.dataBaseAccess;
 
+import com.sun.deploy.security.SelectableSecurityManager;
+import ir.maktab58.StatusTravel;
 import ir.maktab58.model.Drivers;
 
 import java.sql.*;
@@ -26,20 +28,43 @@ public class DriverDBAccess extends DBAccess {
                 "    family VARCHAR(25)," +
                 "    user_name INT," +
                 "    phone VARCHAR(25)," +
-                "  vehicles VARCHAR(25)," +
                 "  balance VARCHAR(25)," +
+                "  status VARCHAR(25)," +
+                "  vehicl INT ," +
                 "    PRIMARY KEY (id) " +
                 "    );");
     }
+
+    /*CREATE TABLE `employee` (
+      // "KEY FK_idx (vehicl),"+
+            //    "CONSTRAINT FK_idx FOREIGN KEY (vehicl) REFERENCES vehicles (id)"+
+            `id` int NOT NULL AUTO_INCREMENT,
+  `name_employ` varchar(45) DEFAULT NULL,
+  `family_employ` varchar(45) DEFAULT NULL,
+  `id_personnel` int DEFAULT NULL,
+            `date_birth` date DEFAULT NULL,
+            `work_unit` int NOT NULL,
+    PRIMARY KEY (`id`),
+    KEY `FK_idx` (`work_unit`),
+    CONSTRAINT `FK` FOREIGN KEY (`work_unit`) REFERENCES `workunit` (`id_unit`)
+    */
+
+
+
+
+
+
+
+
 
     public Integer save(Drivers driver) throws SQLException {
         Integer i = null;
         if (getConnection() != null) {
             Statement statement = getConnection().createStatement();
-            String sqlQuery = String.format("insert into driver(name,family,user_name,phone,vehicles,balance) " +
-                            "values ('%s','%s',%d,'%s','%s','%s')", driver.getName(), driver.getFamily()
+            String sqlQuery = String.format("insert into driver(name,family,user_name,phone,vehicl,balance,status) " +
+                            "values ('%s','%s',%d,'%s',%d,'%s','%s')", driver.getName(), driver.getFamily()
                     , driver.getUserName(), driver.getPhoneNumber(),
-                    driver.getVehicles().getType().getType(), driver.getBalance());
+                    driver.getVehicles().getModel(), driver.getBalance(),driver.getStatus().getStatus());
             i = statement.executeUpdate(sqlQuery);
             System.out.println("Add driver successful");
         } else {
@@ -95,10 +120,21 @@ public class DriverDBAccess extends DBAccess {
             ArrayList<Drivers> arrayList = new ArrayList<>();
 
             while (resultSet.next()) {
-                Drivers drivers = new Drivers(resultSet.getString(2), resultSet.getString(3), resultSet.getInt(4),
-                        resultSet.getString(5), Double.parseDouble(resultSet.getString(7)));
+                if (resultSet.getString("status").equals(StatusTravel.ABSENT)) {
+                    Drivers drivers = new Drivers(resultSet.getString("name"), resultSet.getString("family"),
+                            resultSet.getInt("user_name"),
+                            resultSet.getString("phone"), Double.parseDouble(resultSet.getString("balance")
+                    ), StatusTravel.ABSENT);
+                    arrayList.add(drivers);
+                }else
+                  if (resultSet.getString("status").equals(StatusTravel.PRESENCE)) {
+                    Drivers drivers = new Drivers(resultSet.getString("name"), resultSet.getString("family"),
+                            resultSet.getInt("user_name"),
+                            resultSet.getString("phone"), Double.parseDouble(resultSet.getString("balance")
+                    ), StatusTravel.PRESENCE);
+                    arrayList.add(drivers);
+                }
 
-                arrayList.add(drivers);
             }
             for (Drivers dri : arrayList) {
 
