@@ -17,8 +17,7 @@ public class VehicleDBAccess extends DBAccess {
 
     @Override
     public void creatTable() throws SQLException {
-        java.sql.Connection connection = getConnection();
-        Statement statement = connection.createStatement();
+        Statement statement = getConnection().createStatement();
         statement.executeUpdate("CREATE TABLE vehicles(" +
                 "    id INT NOT NULL AUTO_INCREMENT," +
                 "    name VARCHAR(25)," +
@@ -29,17 +28,27 @@ public class VehicleDBAccess extends DBAccess {
                 "    PRIMARY KEY (id) " +
                 "    );");
     }
-    public void save(Vehicles vehicles) throws SQLException {
+    public int save(Vehicles vehicles) throws SQLException {
+        int id=0;
         if (getConnection() != null) {
-            Statement statement = getConnection().createStatement();
+
+
             String sqlQuery = String.format("insert into vehicles(name,color,model,plate,type) " +
                             "values ('%s','%s',%d,'%s','%s')", vehicles.getName(), vehicles.getColor()
                     , vehicles.getModel(), vehicles.getPlateNumber(),
                     vehicles.getType().getType());
-            statement.executeUpdate(sqlQuery);
+
+            PreparedStatement statement= getConnection().prepareStatement(sqlQuery);
+            statement = getConnection().prepareStatement(sqlQuery,Statement.RETURN_GENERATED_KEYS);
+           statement.executeLargeUpdate();
+           ResultSet rs = statement.getGeneratedKeys();
+            if( rs.next()){
+                id=rs.getInt(1);
+            }
             System.out.println("Add vehicles successful");
         } else {
             System.out.println("----connection is empty----");
         }
+        return id;
     }
 }

@@ -1,4 +1,4 @@
-package ir.maktab58;
+package ir.maktab58.enums;
 
 public enum VehiclesType {
     CAR("Car"),

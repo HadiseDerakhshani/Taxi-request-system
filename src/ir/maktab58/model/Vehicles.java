@@ -1,6 +1,6 @@
 package ir.maktab58.model;
 
-import ir.maktab58.VehiclesType;
+import ir.maktab58.enums.VehiclesType;
 
 public class Vehicles {
     private int id;
@@ -10,6 +10,10 @@ public class Vehicles {
     private String plateNumber;
     private VehiclesType type;
     public Vehicles() {
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getId() {

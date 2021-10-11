@@ -1,7 +1,6 @@
 package ir.maktab58.model;
 
-import com.sun.org.apache.xerces.internal.util.Status;
-import ir.maktab58.StatusTravel;
+import ir.maktab58.enums.StatusTravel;
 
 public class Passengers extends Person{
     public Passengers() {

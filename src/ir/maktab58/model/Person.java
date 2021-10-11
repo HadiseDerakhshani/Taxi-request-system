@@ -1,7 +1,8 @@
 package ir.maktab58.model;
 
-import com.sun.org.apache.xerces.internal.util.Status;
-import ir.maktab58.StatusTravel;
+import ir.maktab58.enums.StatusTravel;
+
+import java.util.Objects;
 
 public class Person {
     private String name;
@@ -80,5 +81,18 @@ public class Person {
                 ", balance=" + balance +
                 ", status=" + status +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        return userName == person.userName && Double.compare(person.balance, balance) == 0 && Objects.equals(name, person.name) && Objects.equals(family, person.family) && Objects.equals(phoneNumber, person.phoneNumber) && status == person.status;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, family, userName, phoneNumber, balance, status);
     }
 }

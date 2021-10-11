@@ -1,7 +1,6 @@
 package ir.maktab58.dataBaseAccess;
 
-import ir.maktab58.StatusTravel;
-import ir.maktab58.model.Drivers;
+import ir.maktab58.enums.StatusTravel;
 import ir.maktab58.model.Passengers;
 
 import java.sql.*;
@@ -19,9 +18,8 @@ public class PassengerDBAccess extends DBAccess{
 }
 
     @Override
-    public void creatTable() throws ClassNotFoundException, SQLException {
-        Connection connection = getConnection();
-        Statement statement = connection.createStatement();
+    public void creatTable() throws  SQLException {
+        Statement statement = getConnection().createStatement();
         statement.executeUpdate("CREATE TABLE passenger(" +
                 "    id INT NOT NULL AUTO_INCREMENT," +
                 "    name VARCHAR(25)," +
@@ -35,12 +33,14 @@ public class PassengerDBAccess extends DBAccess{
     public Integer save(Passengers passengers) throws SQLException {
         Integer i=null;
         if (getConnection() != null) {
-            Statement statement = getConnection().createStatement();
-            String sqlQuery = String.format("insert into passenger(name,family,user_name,phone,balance) " +
-                            "values ('%s','%s','%d','%s','%s')",passengers.getName(),passengers.getFamily()
-                    ,passengers.getUserName(),passengers.getPhoneNumber(),passengers.getBalance());
-            i=statement.executeUpdate(sqlQuery);
-            System.out.println("Add passenger successful");
+            if(search(passengers.getUserName())==null) {
+                Statement statement = getConnection().createStatement();
+                String sqlQuery = String.format("insert into passenger(name,family,user_name,phone,balance) " +
+                                "values ('%s','%s','%d','%s','%s')", passengers.getName(), passengers.getFamily()
+                        , passengers.getUserName(), passengers.getPhoneNumber(), passengers.getBalance());
+                i = statement.executeUpdate(sqlQuery);
+                System.out.println("Add passenger successful");
+            }
         } else{
             System.out.println("----connection is empty----");
             i=null;
@@ -94,27 +94,20 @@ public class PassengerDBAccess extends DBAccess{
 
             while (resultSet.next()) {
 
-
-
-                if (resultSet.getString("status").equals(StatusTravel.ABSENT)) {
+                if (resultSet.getString("status").equals(StatusTravel.WAITING)) {
                     Passengers passengers = new Passengers(resultSet.getString(2), resultSet.getString(3)
                             , resultSet.getInt(4), resultSet.getString(5)
-                            , Double.parseDouble(resultSet.getString(6)),StatusTravel.ABSENT);
-
+                            , Double.parseDouble(resultSet.getString(6)),StatusTravel.WAITING);
                     arrayList.add(passengers);
                 }else
-                if (resultSet.getString("status").equals(StatusTravel.PRESENCE)) {
+                if (resultSet.getString("status").equals(StatusTravel.DOING)) {
                     Passengers passengers = new Passengers(resultSet.getString(2), resultSet.getString(3)
                             , resultSet.getInt(4), resultSet.getString(5)
-                            , Double.parseDouble(resultSet.getString(6)),StatusTravel.PRESENCE);
-
+                            , Double.parseDouble(resultSet.getString(6)),StatusTravel.DOING);
                     arrayList.add(passengers);
                 }
-
-
             }
             for (Passengers pass : arrayList) {
-
                 System.out.println(pass.toString());
             }
         } else

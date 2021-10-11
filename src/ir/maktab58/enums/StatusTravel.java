@@ -1,8 +1,8 @@
-package ir.maktab58;
+package ir.maktab58.enums;
 
 public enum StatusTravel {
-  PRESENCE("presence"),
-  ABSENT("absent");
+  WAITING("waiting"),
+  DOING("doing");
   String status;
 
     StatusTravel(String status) {
