@@ -113,4 +113,33 @@ public class PassengerDBAccess extends DBAccess{
         } else
             System.out.println("----Connection Is Empty----");
     }
+   public void showPassenger(int id) throws SQLException {
+       System.out.println(findByUserName(id));
+   }
+   public Passengers findByUserName(int id) throws SQLException {
+       String sqlQuery = String.format("select * from  passenger where user_name = ?");
+       PreparedStatement findId = getConnection().prepareStatement(sqlQuery);
+       findId.setInt(1, id);
+       ResultSet resultSet = findId.executeQuery();
+       Passengers passengers=new Passengers();
+       while (resultSet.next()) {
+           if (resultSet.getString("status").equals(StatusTravel.WAITING)) {
+               passengers = new Passengers(resultSet.getInt(1),resultSet.getString(2), resultSet.getString(3)
+                       , resultSet.getInt(4), resultSet.getString(5)
+                       , Double.parseDouble(resultSet.getString(6)),StatusTravel.WAITING);
+           }else
+           if (resultSet.getString("status").equals(StatusTravel.DOING)) {
+               passengers = new Passengers(resultSet.getInt(1),resultSet.getString(2), resultSet.getString(3)
+                       , resultSet.getInt(4), resultSet.getString(5)
+                       , Double.parseDouble(resultSet.getString(6)),StatusTravel.DOING);
+           }
+
+       }
+       return passengers;
+   }
+   public boolean checkBalance(Passengers passengers,int amount){
+        if(passengers.getBalance()>=amount)
+            return true;
+        return false;
+   }
 }

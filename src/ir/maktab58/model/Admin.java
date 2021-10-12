@@ -1,8 +1,10 @@
 package ir.maktab58.model;
 
+import ir.maktab58.dataBaseAccess.TripDBAccess;
 import ir.maktab58.enums.StatusTravel;
 import ir.maktab58.dataBaseAccess.DriverDBAccess;
 import ir.maktab58.dataBaseAccess.PassengerDBAccess;
+import ir.maktab58.enums.StatusTrip;
 
 import java.sql.SQLException;
 import java.util.InputMismatchException;
@@ -17,7 +19,8 @@ public class Admin {
     private Drivers drivers = new Drivers();
     private  Vehicles vehicles = new Vehicles();
     private Passengers passengers = new Passengers();
-
+    private Trip trip=new Trip();
+  private TripDBAccess tripDBAccess=new TripDBAccess();
     public Admin() throws SQLException, ClassNotFoundException {
     }
 
@@ -121,21 +124,48 @@ public class Admin {
                 scanner.nextInt(), scanner.next(), scanner.nextDouble(), StatusTravel.WAITING);
         passengerDBAccess.save(passengers);
     }
-    public  int checked(Integer check, int item) throws SQLException, ClassNotFoundException {
+    public  int checked(Integer checkid, int item) throws SQLException, ClassNotFoundException {
         int choice = 0;
-        Scanner scanner = new Scanner(System.in);
-        if (check != null) {
-            System.out.println("1.Increase account balance \n" +
-                    "2.Exit\n");
-            choice = scanner.nextInt();
-            if (choice == 1 && item == 3) {
-                DriverDBAccess driverDBAccess = new DriverDBAccess();
-                System.out.println("enter amount for update balance");
-                driverDBAccess.updateBalance(check, Double.parseDouble(scanner.next()));
-            } else if (choice == 1 && item == 4) {
-                PassengerDBAccess passengerDBAccess = new PassengerDBAccess();
-                System.out.println("enter amount for update balance");
-                passengerDBAccess.updateBalance(check, Double.parseDouble(scanner.next()));
+        int check=0;
+        if (checkid != null) {
+            if ( item == 3) {
+               // DriverDBAccess driverDBAccess = new DriverDBAccess();
+                driverDBAccess.showDriver(checkid);
+                if(check==1){
+            System.out.println("1.Confirm cash receipt\n" +
+                    "2.Travel finished\n" +
+                    "3.Exit");
+                }else
+                    System.out.println("1.Travel finished\n" +
+                            "2.Exit");
+                      choice = scanner.nextInt();
+              //  System.out.println("enter amount for update balance");
+               // driverDBAccess.updateBalance(checkid, Double.parseDouble(scanner.next()));
+            } else if ( item == 4) {
+               // PassengerDBAccess passengerDBAccess = new PassengerDBAccess();
+                passengerDBAccess.showPassenger(checkid);
+
+                System.out.println("1.Travel request (pay by cash)\n" +
+                        "2.Travel request (pay by account balance)\n" +
+                        "3.Increase account balance\n" +
+                        "4.Exit ");
+                choice = scanner.nextInt();
+                   switch (choice){
+                       case 1:
+                           requestTravel(passengerDBAccess.findByUserName(checkid),1);
+                           check=1;
+                           break;
+                       case 2:
+                           requestTravel(passengerDBAccess.findByUserName(checkid),2);
+                            check=0;
+                           break;
+                       case 3:
+                             System.out.println("enter amount for update balance");
+                             passengerDBAccess.updateBalance(checkid, Double.parseDouble(scanner.next()));
+                           break;
+                       case 4:
+                           break;
+                   }
             } else if (choice == 2) {
                 choice = menu();
             }
@@ -154,5 +184,25 @@ public class Admin {
 
         return choice;
     }
+public int requestTravel(Passengers passengers,int select) throws SQLException {
+        int amount=0;
+        String locationOrigin;
+    String locationDestination;
+    System.out.println("Enter the origin of your travel (x000,y000): ");
+    locationOrigin=scanner.next();
+    System.out.println("Enter the destination of your travel (x000,y000): ");
+    locationDestination=scanner.next();
+    String[] splitOrigin=locationOrigin.split(",");
+    String[] splitDestination=locationDestination.split(",");
+   amount=1000*((Integer.parseInt(splitDestination[0])-Integer.parseInt(splitOrigin[0]))+
+           (Integer.parseInt(splitDestination[0])-Integer.parseInt(splitOrigin[0])));
+    drivers=driverDBAccess.findByLocation(locationOrigin);
+    trip=new Trip(locationOrigin,locationDestination, StatusTrip.DOING,drivers,passengers);
+     if(select==2){
+       if (passengerDBAccess.checkBalance(passengers,amount))
+           tripDBAccess.save(trip);
+     }else tripDBAccess.save(trip);
+   return amount;
+}
 
 }

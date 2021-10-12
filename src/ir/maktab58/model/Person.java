@@ -5,6 +5,7 @@ import ir.maktab58.enums.StatusTravel;
 import java.util.Objects;
 
 public class Person {
+    private int id;
     private String name;
     private String family;
     private int userName;
@@ -12,6 +13,17 @@ public class Person {
     private double balance;
     private StatusTravel status;
     public Person() {
+    }
+
+    public Person(int id, String name, String family, int userName,
+                  String phoneNumber, double balance, StatusTravel status) {
+        this.id = id;
+        this.name = name;
+        this.family = family;
+        this.userName = userName;
+        this.phoneNumber = phoneNumber;
+        this.balance = balance;
+        this.status = status;
     }
 
     public Person(String name, String family, int userName, String phoneNumber, double balance, StatusTravel status) {

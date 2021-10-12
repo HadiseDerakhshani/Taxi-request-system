@@ -9,7 +9,7 @@ import java.sql.SQLException;
 public class Drivers extends Person {
     private Vehicles vehicles;
     private String location;
-
+    private int amount;
 
     public Drivers() {
     }
@@ -21,8 +21,33 @@ public class Drivers extends Person {
         this.location=location;
     }
 
+    public Drivers(int id, String name, String family, int userName,
+                   String phoneNumber, double balance, StatusTravel status, String location) {
+        super(id, name, family, userName, phoneNumber, balance, status);
+        this.location = location;
+    }
+
+    public Drivers(int id, String name, String family, int userName, String phoneNumber, double balance, StatusTravel status, String location, int amount) {
+        super(id, name, family, userName, phoneNumber, balance, status);
+        this.location = location;
+        this.amount = amount;
+    }
+
     public Drivers(String name, String family, int userName, String phoneNumber, double balance, StatusTravel status) {
         super(name, family, userName, phoneNumber, balance, status);
+    }
+
+    public Drivers(String name, String family, int userName, String phoneNumber, double balance, StatusTravel status, String location) {
+        super(name, family, userName, phoneNumber, balance, status);
+        this.location = location;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 
     public String getLocation() {

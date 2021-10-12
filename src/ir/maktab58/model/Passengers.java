@@ -10,6 +10,10 @@ public class Passengers extends Person{
         super(name, family, userName, phoneNumber, balance, status);
     }
 
+    public Passengers(int id, String name, String family, int userName, String phoneNumber, double balance, StatusTravel status) {
+        super(id, name, family, userName, phoneNumber, balance, status);
+    }
+
     @Override
     public String toString() {
         return super.toString();
