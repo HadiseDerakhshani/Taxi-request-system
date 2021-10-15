@@ -38,8 +38,8 @@ public class VehicleDBAccess extends DBAccess {
                     , vehicles.getModel(), vehicles.getPlateNumber(),
                     vehicles.getType().getType());
 
-            PreparedStatement statement= getConnection().prepareStatement(sqlQuery);
-            statement = getConnection().prepareStatement(sqlQuery,Statement.RETURN_GENERATED_KEYS);
+
+            PreparedStatement  statement = getConnection().prepareStatement(sqlQuery, Statement.RETURN_GENERATED_KEYS);
            statement.executeLargeUpdate();
            ResultSet rs = statement.getGeneratedKeys();
             if( rs.next()){

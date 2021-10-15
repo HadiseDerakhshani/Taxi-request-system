@@ -23,7 +23,7 @@ public abstract class DBAccess {
 
     public abstract void creatTable() throws ClassNotFoundException, SQLException;
 
-    public void updateBalance(int id, double balance) throws SQLException {
+    public void updateBalance(int id, int balance) throws SQLException {
 
     }
 

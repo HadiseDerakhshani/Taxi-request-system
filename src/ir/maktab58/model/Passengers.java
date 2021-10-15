@@ -6,12 +6,16 @@ public class Passengers extends Person{
     public Passengers() {
     }
 
-    public Passengers(String name, String family, int userName, String phoneNumber, double balance, StatusTravel status) {
-        super(name, family, userName, phoneNumber, balance, status);
+    public Passengers(String string, String resultSetString, int anInt, String setString, int resultSetInt) {
     }
 
-    public Passengers(int id, String name, String family, int userName, String phoneNumber, double balance, StatusTravel status) {
+    public Passengers(int id, String name, String family, int userName,
+                      String phoneNumber, int balance, StatusTravel status) {
         super(id, name, family, userName, phoneNumber, balance, status);
+    }
+
+    public Passengers(String name, String family, int userName, String phoneNumber, int balance, StatusTravel waiting) {
+        super(name, family, userName, phoneNumber, balance);
     }
 
     @Override

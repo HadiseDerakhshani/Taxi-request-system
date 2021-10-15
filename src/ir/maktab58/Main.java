@@ -19,6 +19,12 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         int choice = 0;
         boolean check;
+
+
+       /* for(Object passengers: passengerDBAccess.showList()) {
+            System.out.println(passengers);
+        }*/
+        System.out.println(passengerDBAccess.findByUserName(14));
         Admin admin = new Admin();
         System.out.println("enter userName :");
         if (admin.checkAdmin(scanner.next())) {

@@ -15,12 +15,25 @@ public class Trip {
     public Trip() {
     }
 
+    public Trip(int tripNumber, String origin, String destination, StatusTrip statusTrip, Drivers drivers, Passengers passengers) {
+        this.tripNumber = tripNumber;
+        this.origin = origin;
+        this.destination = destination;
+        this.statusTrip = statusTrip;
+        this.drivers = drivers;
+        this.passengers = passengers;
+    }
+
     public Trip(String origin, String destination, StatusTrip statusTrip, Drivers drivers, Passengers passengers) {
         this.origin = origin;
        this. destination = destination;
         this.statusTrip = statusTrip;
         this.drivers = drivers;
         this.passengers = passengers;
+    }
+
+    public <T> Trip(T object) {
+
     }
 
     public int getTripNumber() {

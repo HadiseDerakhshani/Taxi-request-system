@@ -10,13 +10,21 @@ public class Person {
     private String family;
     private int userName;
     private String phoneNumber;
-    private double balance;
+    private int balance;
     private StatusTravel status;
     public Person() {
     }
 
+    public Person(String name, String family, int userName, String phoneNumber, int balance) {
+        this.name = name;
+        this.family = family;
+        this.userName = userName;
+        this.phoneNumber = phoneNumber;
+        this.balance = balance;
+    }
+
     public Person(int id, String name, String family, int userName,
-                  String phoneNumber, double balance, StatusTravel status) {
+                  String phoneNumber, int balance, StatusTravel status) {
         this.id = id;
         this.name = name;
         this.family = family;
@@ -26,7 +34,7 @@ public class Person {
         this.status = status;
     }
 
-    public Person(String name, String family, int userName, String phoneNumber, double balance, StatusTravel status) {
+    public Person(String name, String family, int userName, String phoneNumber, int balance, StatusTravel status) {
         this.name = name;
         this.family = family;
         this.userName = userName;
@@ -75,12 +83,20 @@ public class Person {
         this.phoneNumber = phoneNumber;
     }
 
-    public double getBalance() {
+    public int getBalance() {
         return balance;
     }
 
-    public void setBalance(double balance) {
+    public void setBalance(int balance) {
         this.balance = balance;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override
@@ -100,11 +116,13 @@ public class Person {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Person person = (Person) o;
-        return userName == person.userName && Double.compare(person.balance, balance) == 0 && Objects.equals(name, person.name) && Objects.equals(family, person.family) && Objects.equals(phoneNumber, person.phoneNumber) && status == person.status;
+        return id == person.id && userName == person.userName && balance == person.balance &&
+                Objects.equals(name, person.name) && Objects.equals(family, person.family) &&
+                Objects.equals(phoneNumber, person.phoneNumber) && status == person.status;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, family, userName, phoneNumber, balance, status);
+        return Objects.hash(id, name, family, userName, phoneNumber, balance, status);
     }
 }

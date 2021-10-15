@@ -14,7 +14,7 @@ public class Drivers extends Person {
     public Drivers() {
     }
 
-    public Drivers(String name, String family, int userName, String phoneNumber, double balance,
+    public Drivers(String name, String family, int userName, String phoneNumber, int balance,
                    StatusTravel status, Vehicles vehicles,String location) {
         super(name, family, userName, phoneNumber, balance, status);
         this.vehicles = vehicles;
@@ -22,22 +22,23 @@ public class Drivers extends Person {
     }
 
     public Drivers(int id, String name, String family, int userName,
-                   String phoneNumber, double balance, StatusTravel status, String location) {
+                   String phoneNumber, int balance, StatusTravel status, String location) {
         super(id, name, family, userName, phoneNumber, balance, status);
         this.location = location;
     }
 
-    public Drivers(int id, String name, String family, int userName, String phoneNumber, double balance, StatusTravel status, String location, int amount) {
+    public Drivers(int id, String name, String family, int userName,
+                   String phoneNumber, int balance, StatusTravel status, String location, int amount) {
         super(id, name, family, userName, phoneNumber, balance, status);
         this.location = location;
         this.amount = amount;
     }
 
-    public Drivers(String name, String family, int userName, String phoneNumber, double balance, StatusTravel status) {
+    public Drivers(String name, String family, int userName, String phoneNumber, int balance, StatusTravel status) {
         super(name, family, userName, phoneNumber, balance, status);
     }
 
-    public Drivers(String name, String family, int userName, String phoneNumber, double balance, StatusTravel status, String location) {
+    public Drivers(String name, String family, int userName, String phoneNumber, int balance, StatusTravel status, String location) {
         super(name, family, userName, phoneNumber, balance, status);
         this.location = location;
     }
